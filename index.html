@@ -10,8 +10,7 @@
       --bg:#0f172a;        /* slate-900 */
       --card:#111827;      /* gray-900 */
       --ink:#e5e7eb;       /* gray-200 */
-      --muted:#a1a1aa;     /* zinc-400 */
-      --accent:#f59e0b;    /* amber-500 */
+      --muted:#a1a1aa;      /* zinc-400 */
       --accent-2:#22c55e;  /* green-500 */
       --danger:#ef4444;    /* red-500 */
     }
@@ -110,11 +109,20 @@
             <label class="small"><input id="consent" type="checkbox" required /> Ich bin einverstanden, dass meine Daten zur Durchführung des Gewinnspiels gespeichert und verwendet werden.</label>
           </div>
           <div class="form-inline">
-            <button class="btn green" type="submit">Jetzt registrieren</button>
-            <button id="exportCsv" class="btn" type="button">Teilnehmende exportieren (CSV)</button>
+            <button class="btn green" type="submit">Jetzt teilnehmen</button>
             <span id="status" class="small muted" aria-live="polite"></span>
           </div>
-          <div class="small muted">Hinweis: Die Daten werden lokal in diesem Browser gespeichert. Für echte Einsendungen empfehlen wir die Anbindung eines Formular-Dienstes (z. B. Formspree) oder eines Newsletter-Tools.</div>
+          <div class="small muted">Hinweis: Deine Daten werden nur für die Durchführung des Gewinnspiels verwendet.</div>
+
+          <!-- Admin-Bereich: wird nur angezeigt, wenn die Seite mit ?admin=kitchen2025 geöffnet wird -->
+          <div id="adminControls" style="display:none; margin-top:10px">
+            <div class="form-inline">
+              <button id="exportCsv" class="btn" type="button">Teilnehmende exportieren (CSV)</button>
+              <button id="drawWinner" class="btn accent" type="button">🎉 Gewinner ziehen</button>
+              <span id="adminKpi" class="small muted"></span>
+            </div>
+            <div id="winnerBox" class="small" style="margin-top:8px"></div>
+          </div>
         </form>
       </div>
     </section>
@@ -150,44 +158,20 @@
       <p class="small">Öffnungszeiten: Heute geöffnet, Küchenschluss 22:00 · Weitere Infos telefonisch oder vor Ort.</p>
       <p class="small">Adresse: Kirchstraße 6, 77933 Lahr/Schwarzwald · <a href="https://maps.google.com/?q=Kirchstraße%206,%2077933%20Lahr%2FSchwarzwald" target="_blank" rel="noopener">Route planen</a></p>
     </footer>
+
+  <section style="text-align:center; margin-top:40px;">
+    <h2>📱 QR‑Code zum Adventskalender</h2>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://limmortale24.github.io/Adventskalender-2025-Kitchen/" alt="QR-Code für den Adventskalender The Kitchen 2025" />
+    <p>Das ist der QR‑Code für den Adventskalender von <strong>The Kitchen 2025</strong>.</p>
+  </section>
   </div>
 
   <script>
     // ------- Datenhaltung -------
     const STORAGE_KEY_DAYS = 'kitchenAdventDays.v1';
-    const STORAGE_KEY_REGS = 'kitchenAdventRegistrations.v1';
+    const STORAGE_KEY_REGS = 'kitchenAdventRegistrations.v1'; // lokal – zusätzlich wird an ENDPOINT gepostet
+    const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzq6N3qIdb0_9rVj5e6vXQCdPIrwBzjhmzh4Kp7AJ6Uns6VpKPc7QbFxtr6aK7fUQBLZQ/exec';
 
-    /**
-     * Tagesobjekt: { title: string, desc: string, imageDataUrl: string|null }
-     */
-    function defaultDays(){
-      const arr = new Array(24).fill(null).map(()=>({title:'',desc:'',imageDataUrl:null}));
-      // 1. Dezember vorbelegen
-      arr[0] = {
-        title: 'Rigatoni mit Hähnchenfleisch',
-        desc: 'Eine Portion Rigatoni mit Hähnchenfleisch – unser Geschenk am 1. Dezember! 🍝',
-        imageDataUrl: null
-      };
-      return arr;
-    }
-
-    function loadDays(){
-      try{
-        const raw = localStorage.getItem(STORAGE_KEY_DAYS);
-        if(!raw) return defaultDays();
-        const parsed = JSON.parse(raw);
-        if(!Array.isArray(parsed) || parsed.length !== 24) return defaultDays();
-        return parsed.map(d=>({title:d.title||'',desc:d.desc||'',imageDataUrl:d.imageDataUrl||null}));
-      }catch(e){return defaultDays();}
-    }
-    function saveDays(days){
-      localStorage.setItem(STORAGE_KEY_DAYS, JSON.stringify(days));
-    }
-
-    function loadRegs(){
-      try{ return JSON.parse(localStorage.getItem(STORAGE_KEY_REGS) || '[]'); }
-      catch(e){ return []; }
-    }
     function saveRegs(list){
       localStorage.setItem(STORAGE_KEY_REGS, JSON.stringify(list));
     }
@@ -315,49 +299,87 @@
     // ------- Registrierung -------
     const raffleForm = document.getElementById('raffleForm');
     const statusEl = document.getElementById('status');
+    const adminControls = document.getElementById('adminControls');
     const exportCsvBtn = document.getElementById('exportCsv');
+    const drawBtn = document.getElementById('drawWinner');
+    const winnerBox = document.getElementById('winnerBox');
+    const adminKpi = document.getElementById('adminKpi');
+
+    const isAdmin = new URLSearchParams(location.search).get('admin') === 'kitchen2025';
+    if(isAdmin && adminControls){ adminControls.style.display = 'block'; }
 
     function updateStatus(){
-      const regs = loadRegs();
-      statusEl.textContent = `${regs.length} angemeldet`;
+      if(isAdmin){
+        const regs = loadRegs();
+        adminKpi.textContent = `${regs.length} Anmeldungen`;
+        renderWinnerBox();
+      }
     }
 
-    raffleForm.addEventListener('submit', (e)=>{
+    raffleForm.addEventListener('submit', async (e)=>{
       e.preventDefault();
       const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
       const consent = document.getElementById('consent').checked;
       if(!name || !email || !consent){ return; }
       const regs = loadRegs();
-      // einfache Dublettenprüfung (E-Mail)
       if(regs.some(r=>r.email.toLowerCase()===email.toLowerCase())){
         statusEl.textContent = 'Diese E-Mail ist bereits registriert.';
         statusEl.className = 'small danger';
         return;
       }
-      regs.push({name, email, ts:new Date().toISOString()});
+      const payload = {name, email, consent:true, source:'the-kitchen-advent', ts:new Date().toISOString()};
+      regs.push(payload);
       saveRegs(regs);
+      try{ await fetch(ENDPOINT, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)}); }
+      catch(err){ console.warn('POST fehlgeschlagen', err); }
       raffleForm.reset();
-      statusEl.textContent = 'Danke! Du bist dabei.';
+      statusEl.textContent = 'Danke! Deine Teilnahme wurde erfasst.';
       statusEl.className = 'small success';
-      setTimeout(updateStatus, 1200);
+      setTimeout(updateStatus, 800);
     });
 
-    exportCsvBtn.addEventListener('click', ()=>{
-      const regs = loadRegs();
-      const header = 'Name,E-Mail,Datum';
-      const lines = regs.map(r => `${csv(r.name)},${csv(r.email)},${csv(new Date(r.ts).toLocaleString())}`);
-      const csvStr = [header, ...lines].join('\n');
-      const blob = new Blob([csvStr], {type:'text/csv;charset=utf-8;'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'adventskalender-teilnehmende.csv'; a.click();
-      setTimeout(()=>URL.revokeObjectURL(url), 2000);
-    });
+    if(exportCsvBtn){
+      exportCsvBtn.addEventListener('click', ()=>{
+        const regs = loadRegs();
+        const header = 'Name,E-Mail,Datum';
+        const lines = regs.map(r => `${csv(r.name)},${csv(r.email)},${csv(new Date(r.ts).toLocaleString())}`);
+        const csvStr = [header, ...lines].join('
+');
+        const blob = new Blob([csvStr], {type:'text/csv;charset=utf-8;'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'adventskalender-teilnehmende.csv'; a.click();
+        setTimeout(()=>URL.revokeObjectURL(url), 2000);
+      });
+    }
+
+    if(drawBtn){
+      drawBtn.addEventListener('click', ()=>{
+        const regs = loadRegs();
+        if(regs.length===0){ alert('Noch keine Anmeldungen.'); return; }
+        const winner = regs[Math.floor(Math.random()*regs.length)];
+        const winners = JSON.parse(localStorage.getItem('kitchenAdventWinners.v1')||'[]');
+        winners.push({ ...winner, drawnAt: new Date().toISOString() });
+        localStorage.setItem('kitchenAdventWinners.v1', JSON.stringify(winners));
+        renderWinnerBox();
+        statusEl.textContent = `🎉 Gewinner gezogen: ${winner.name}`;
+        statusEl.className = 'small success';
+      });
+    }
+
+    function renderWinnerBox(){
+      const winners = JSON.parse(localStorage.getItem('kitchenAdventWinners.v1')||'[]');
+      if(!winnerBox) return;
+      if(winners.length===0){ winnerBox.innerHTML = ''; return; }
+      const items = winners.map(w => `<li>${escapeHtml(w.name)} – ${new Date(w.drawnAt).toLocaleString()}</li>`).join('');
+      winnerBox.innerHTML = `<div class=\"panel\" style=\"padding:10px\"><strong>Gezogene Gewinner</strong><ul>${items}</ul></div>`;
+    }
 
     function csv(s){
       const v = String(s||'');
-      if(/[",\n]/.test(v)) return '"'+v.replace(/"/g,'""')+'"';
+      if(/[",
+]/.test(v)) return '"'+v.replace(/"/g,'""')+'"';
       return v;
     }
 
@@ -367,3 +389,5 @@
   </script>
 </body>
 </html>
+Hallo.
+
