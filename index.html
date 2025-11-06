@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adventskalender – Restaurant The Kitchen (Lahr)</title>
+  <meta name="description" content="Interaktiver Adventskalender (1.–24.12.) für Restaurant The Kitchen in Lahr/Schwarzwald – täglich Überraschungen + Gewinnspiel-Anmeldung." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* Farbwelt angelehnt an schlichte Gastro-Seiten: dunkel + warmes Akzentgold */
+      --bg:#0a0a0a;          /* fast schwarz */
+      --surface:#111111;     /* dunkelgrau für Karten */
+      --border:#262626;      /* Rahmen */
+      --ink:#f3f4f6;         /* Text */
+      --muted:#a1a1aa;       /* sekundär */
+      --accent:#d4af37;      /* Gold */
+      --accent-2:#22c55e;    /* Grün (Bestätigungen) */
+      --danger:#ef4444;      /* Rot (Fehler) */
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:radial-gradient(120% 120% at 100% 0%, #0e0e0e 0%, #0b0b0b 50%, #060606 100%);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:var(--accent)}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    header{display:grid;gap:10px;margin:4px 0 18px}
+    header .top{display:flex;gap:14px;align-items:center;justify-content:space-between}
+
+    .brand{display:flex;gap:14px;align-items:center}
+    .brand .logo{width:auto;height:auto;padding:4px 10px;border-radius:14px;border:1px solid var(--border);background:#0b0b0b}
+    .brand .logo .wordmark{font-family:'Playfair Display', serif; font-weight:700; letter-spacing:.3px; font-size:clamp(20px,3vw,30px); color:var(--ink)}
+    .brand .logo .submark{font-family:Inter, system-ui; font-weight:600; font-size:12px; color:var(--accent); letter-spacing:.12em; text-transform:uppercase}
+
+    h1{font-size:clamp(22px,2.6vw,36px);margin:0}
+    .sub{color:var(--muted);font-size:14px}
+    .actions{display:flex;flex-wrap:wrap;gap:10px}
+    .btn{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--ink);padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:600}
+    .btn:hover{background:#151515}
+    .btn.accent{background:var(--accent);border-color:transparent;color:#111827}
+    .btn.green{background:var(--accent-2);border-color:transparent;color:#05250f}
+    .btn.ghost{background:transparent;border-color:var(--border)}
+
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 28px}
+    @media (min-width:900px){.grid{grid-template-columns:repeat(6,1fr)}}
+    .tile{position:relative;background:radial-gradient(120% 120% at 100% 0%, #1a1a1a 0%, #121212 55%, #0b0b0b 100%);border:1px solid var(--border);border-radius:16px;min-height:120px;display:grid;place-items:center;padding:12px;cursor:pointer;transition:transform .12s ease, box-shadow .12s ease}
+    .tile:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+    .tile .day{position:absolute;top:10px;left:10px;font-size:12px;color:#cbd5e1;background:#0b0b0b;border:1px solid var(--border);border-radius:999px;padding:4px 8px}
+    .tile .gift{font-weight:700;text-align:center;padding:0 6px}
+    .tile.empty .gift{color:var(--muted);font-weight:500}
+    .legend{font-size:12px;color:var(--muted);margin-top:-4px}
+
+    .panel{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:18px;padding:16px}
+    .two{display:grid;gap:16px}
+    @media (min-width:900px){.two{grid-template-columns:1.6fr 1fr}}
+
+    /* Modal */
+    dialog{border:none;border-radius:18px;background:#0b0b0b;color:var(--ink);width:min(720px,92vw);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+    dialog::backdrop{background:rgba(0,0,0,.6)}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border)}
+    .modal-body{display:grid;gap:14px;padding:16px 18px}
+    .row{display:grid;gap:8px}
+    label{font-size:12px;color:#cbd5e1}
+    input[type="text"], input[type="email"], textarea{width:100%;background:#0f0f0f;border:1px solid #2a2a2a;border-radius:12px;padding:10px 12px;color:var(--ink)}
+    textarea{min-height:88px;resize:vertical}
+    .thumb{width:100%;aspect-ratio:16/10;background:#0f0f0f;border:1px dashed #2f2f2f;border-radius:14px;display:grid;place-items:center;overflow:hidden}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+
+    .form-inline{display:flex;gap:10px;flex-wrap:wrap}
+    .muted{color:var(--muted)}
+    .success{color:var(--accent-2)}
+    .danger{color:var(--danger)}
+    .small{font-size:12px}
+
+    .kpis{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+    .kpi{border:1px solid var(--border);background:#0f0f0f;border-radius:12px;padding:8px 12px}
+
+    footer{margin:24px 0;color:#cbd5e1}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="top">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">
+            <div class="wordmark">Restaurant The Kitchen</div>
+            <div class="submark">Lahr/Schwarzwald</div>
+          </div>
+          <div>
+            <h1>Adventskalender 1.–24. Dezember</h1>
+            <div class="sub">Kirchstraße 6, 77933 Lahr/Schwarzwald · Tel. <a href="tel:078219210747">07821 9210747</a></div>
+            <div class="sub">Deutsches Restaurant · 20–30 € · Sitzplätze im Freien · Hochstühle</div>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="editToggle" class="btn ghost" aria-pressed="false">✏️ Bearbeitungsmodus</button>
+          <button id="exportDays" class="btn">⬇️ Kalender exportieren (JSON)</button>
+          <label class="btn" for="importDays">⬆️ Kalender importieren (JSON)</label>
+          <input id="importDays" type="file" accept="application/json" hidden />
+        </div>
+      </div>
+      <div class="legend">Im <strong>Bearbeitungsmodus</strong> kannst du pro Türchen Titel, Beschreibung und ein Foto hinzufügen. Alle Daten werden lokal im Browser gespeichert (localStorage) – optional kannst du unten eine <strong>Formular‑Anbindung</strong> aktivieren, damit Anmeldungen zentral gezählt werden.</div>
+    </header>
+
+    <section class="panel two">
+      <div>
+        <h2>🎄 Adventskalender</h2>
+        <div id="calendar" class="grid" role="list" aria-label="Adventskalender 1 bis 24"></div>
+      </div>
+      <div>
+        <h2>🎁 Gewinnspiel: Essen für 4 Personen</h2>
+        <div class="kpis">
+          <div class="kpi small" id="kpiTotal">0 Anmeldungen</div>
+          <div class="kpi small" id="kpiOpens">0 Türchen‑Öffnungen</div>
+        </div>
+        <p>Unter allen registrierten Teilnehmer:innen verlosen wir ein <strong>Essen für 4 Personen</strong> bei uns im Restaurant. Teilnahme bis einschließlich <strong>24.12.</strong></p>
+        <form id="raffleForm" class="modal-body panel" style="padding:12px">
+          <div class="row">
+            <label for="name">Name</label>
+            <input id="name" type="text" placeholder="Vor- und Nachname" required />
+          </div>
+          <div class="row">
+            <label for="email">E-Mail</label>
+            <input id="email" type="email" placeholder="name@example.com" required />
+          </div>
+          <div class="row">
+            <label class="small"><input id="consent" type="checkbox" required /> Ich bin einverstanden, dass meine Daten zur Durchführung des Gewinnspiels gespeichert und verwendet werden.</label>
+          </div>
+          <div class="form-inline">
+            <button class="btn green" type="submit">Jetzt registrieren</button>
+            <button id="exportCsv" class="btn" type="button">Teilnehmende exportieren (CSV)</button>
+            <button id="drawWinner" class="btn accent" type="button">🎉 Gewinner ziehen</button>
+            <span id="status" class="small muted" aria-live="polite"></span>
+          </div>
+          <div class="small muted" style="margin-top:8px">Optional: Trage unten eine Formular‑URL (z. B. <em>Formspree</em> oder eigenes Backend) ein, um Anmeldungen <strong>zentral zu speichern</strong> und automatisch zu zählen.</div>
+          <div class="row" style="margin-top:8px">
+            <label for="endpoint" class="small">Formular‑Anbindung (optional) – POST‑URL</label>
+            <input id="endpoint" type="text" placeholder="https://… (leer lassen = lokal speichern)" />
+          </div>
+          <div id="winnerBox" class="small" style="margin-top:8px"></div>
+        </form>
+      </div>
+    </section>
+
+    <dialog id="dayModal">
+      <form method="dialog">
+        <div class="modal-head">
+          <strong id="modalTitle">Tag</strong>
+          <div class="form-inline">
+            <button id="saveDay" class="btn green" value="save">Speichern</button>
+            <button class="btn" value="close">Schließen</button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <label for="dayTitle">Titel</label>
+            <input id="dayTitle" type="text" placeholder="z. B. Hausgemachter Apfelstrudel" />
+          </div>
+          <div class="row">
+            <label for="dayDesc">Beschreibung</label>
+            <textarea id="dayDesc" placeholder="Kurzer Text zum Geschenk / zur Überraschung"></textarea>
+          </div>
+          <div class="row">
+            <label for="dayImage">Foto (optional)</label>
+            <div class="thumb" id="thumb"><span>Kein Bild – hier klicken oder unten Datei wählen</span></div>
+            <input id="dayImage" type="file" accept="image/*" />
+          </div>
+        </div>
+      </form>
+    </dialog>
+
+    <footer>
+      <p class="small">Öffnungszeiten: Heute geöffnet, Küchenschluss 22:00 · Weitere Infos telefonisch oder vor Ort.</p>
+      <p class="small">Adresse: Kirchstraße 6, 77933 Lahr/Schwarzwald · <a href="https://maps.google.com/?q=Kirchstraße%206,%2077933%20Lahr%2FSchwarzwald" target="_blank" rel="noopener">Route planen</a></p>
+    </footer>
+  </div>
+
+  <script>
+    // ------- Datenhaltung -------
+    const STORAGE_KEY_DAYS = 'kitchenAdventDays.v2';
+    const STORAGE_KEY_REGS = 'kitchenAdventRegistrations.v2';
+    const STORAGE_KEY_WINNERS = 'kitchenAdventWinners.v2';
+    const STORAGE_KEY_OPENS = 'kitchenAdventOpens.v1';
+
+    /** Tagesobjekt: { title: string, desc: string, imageDataUrl: string|null } */
+    function defaultDays(){
+      const arr = new Array(24).fill(null).map(()=>({title:'',desc:'',imageDataUrl:null}));
+      // 1. Dezember vorbelegen
+      arr[0] = { title: 'Rigatoni mit Hähnchenfleisch', desc: 'Eine Portion Rigatoni mit Hähnchenfleisch – unser Geschenk am 1. Dezember! 🍝', imageDataUrl: null };
+      return arr;
+    }
+    function loadDays(){ try{ const raw = localStorage.getItem(STORAGE_KEY_DAYS); if(!raw) return defaultDays(); const parsed = JSON.parse(raw); if(!Array.isArray(parsed)||parsed.length!==24) return defaultDays(); return parsed.map(d=>({title:d.title||'',desc:d.desc||'',imageDataUrl:d.imageDataUrl||null})); }catch(e){return defaultDays();}}
+    function saveDays(days){ localStorage.setItem(STORAGE_KEY_DAYS, JSON.stringify(days)); }
+
+    function loadRegs(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY_REGS) || '[]'); } catch(e){ return []; } }
+    function saveRegs(list){ localStorage.setItem(STORAGE_KEY_REGS, JSON.stringify(list)); }
+
+    function loadWinners(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY_WINNERS) || '[]'); } catch(e){ return []; } }
+    function saveWinners(list){ localStorage.setItem(STORAGE_KEY_WINNERS, JSON.stringify(list)); }
+
+    function loadOpens(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY_OPENS) || '[]'); } catch(e){ return []; } }
+    function saveOpens(list){ localStorage.setItem(STORAGE_KEY_OPENS, JSON.stringify(list)); }
+
+    // ------- UI: Kalender -------
+    const calendarEl = document.getElementById('calendar');
+    const editToggle = document.getElementById('editToggle');
+    const dayModal = document.getElementById('dayModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const dayTitle = document.getElementById('dayTitle');
+    const dayDesc = document.getElementById('dayDesc');
+    const dayImage = document.getElementById('dayImage');
+    const thumb = document.getElementById('thumb');
+    const saveDayBtn = document.getElementById('saveDay');
+
+    const kpiTotal = document.getElementById('kpiTotal');
+    const kpiOpens = document.getElementById('kpiOpens');
+
+    let days = loadDays();
+    let editMode = false;
+    let currentIndex = 0;
+    let opens = loadOpens(); if(!Array.isArray(opens) || opens.length!==24) { opens = new Array(24).fill(0); saveOpens(opens); }
+
+    function renderCalendar(){
+      calendarEl.innerHTML='';
+      days.forEach((d,idx)=>{
+        const day = idx+1;
+        const tile = document.createElement('button');
+        tile.className = 'tile' + ((d.title||d.imageDataUrl)?'':' empty');
+        tile.setAttribute('role','listitem');
+        tile.setAttribute('aria-label', `Türchen ${day}: ${d.title?d.title:'(leer)'} – ${opens[idx]} Öffnungen`);
+        tile.innerHTML = `
+          <span class=\"day\">${String(day).padStart(2,'0')}.12.</span>
+          <div class=\"gift\">${d.title ? escapeHtml(d.title) : 'Überraschung öffnen'}</div>
+        `;
+        tile.addEventListener('click',()=>{ opens[idx]++; saveOpens(opens); updateKpis(); openDay(idx); });
+        calendarEl.appendChild(tile);
+      });
+    }
+
+    function openDay(index){
+      currentIndex = index;
+      const d = days[index];
+      modalTitle.textContent = `Türchen ${index+1}`;
+
+      const canEdit = editMode;
+      dayTitle.disabled = !canEdit;
+      dayDesc.disabled = !canEdit;
+      dayImage.disabled = !canEdit;
+
+      dayTitle.value = d.title || '';
+      dayDesc.value = d.desc || '';
+      renderThumb(d.imageDataUrl);
+
+      if(!canEdit){ saveDayBtn.style.display='none'; }
+      else { saveDayBtn.style.display='inline-block'; }
+
+      dayModal.showModal();
+    }
+
+    function renderThumb(dataUrl){ thumb.innerHTML = dataUrl ? `<img alt=\"Geschenkfoto\" src=\"${dataUrl}\" />` : `<span>Kein Bild – hier klicken oder unten Datei wählen</span>`; }
+    function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[s])); }
+
+    editToggle.addEventListener('click', ()=>{ editMode = !editMode; editToggle.setAttribute('aria-pressed', String(editMode)); editToggle.classList.toggle('accent', editMode); editToggle.textContent = editMode ? '✅ Bearbeitungsmodus aktiv' : '✏️ Bearbeitungsmodus'; renderCalendar(); });
+    thumb.addEventListener('click', ()=>{ if(editMode) dayImage.click(); });
+    dayImage.addEventListener('change', ()=>{ const file = dayImage.files && dayImage.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = e=>{ renderThumb(e.target.result); }; reader.readAsDataURL(file); });
+
+    saveDayBtn.addEventListener('click', (e)=>{ if(!editMode) return; e.preventDefault(); const d = days[currentIndex]; d.title = dayTitle.value.trim(); d.desc = dayDesc.value.trim(); const imgEl = thumb.querySelector('img'); d.imageDataUrl = imgEl ? imgEl.src : null; saveDays(days); renderCalendar(); dayModal.close(); });
+
+    // Export / Import Days
+    document.getElementById('exportDays').addEventListener('click', ()=>{ const blob = new Blob([JSON.stringify(days,null,2)], {type:'application/json'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'adventskalender-kitchen.json'; a.click(); setTimeout(()=>URL.revokeObjectURL(url), 2000); });
+    document.getElementById('importDays').addEventListener('change', (ev)=>{ const file = ev.target.files && ev.target.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = e=>{ try{ const parsed = JSON.parse(e.target.result); if(Array.isArray(parsed) && parsed.length===24){ days = parsed.map(d=>({title:d.title||'',desc:d.desc||'',imageDataUrl:d.imageDataUrl||null})); saveDays(days); renderCalendar(); } else { alert('Ungültiges Format. Erwartet 24 Einträge.'); } }catch(err){ alert('Konnte Datei nicht lesen.'); } }; reader.readAsText(file); });
+
+    // ------- Registrierung -------
+    const raffleForm = document.getElementById('raffleForm');
+    const statusEl = document.getElementById('status');
+    const exportCsvBtn = document.getElementById('exportCsv');
+    const drawBtn = document.getElementById('drawWinner');
+    const winnerBox = document.getElementById('winnerBox');
+    const endpointInput = document.getElementById('endpoint');
+
+    function updateKpis(){
+      const regs = loadRegs();
+      kpiTotal.textContent = `${regs.length} Anmeldungen`;
+      const totalOpens = (loadOpens()||[]).reduce((a,b)=>a+(b||0),0);
+      kpiOpens.textContent = `${totalOpens} Türchen‑Öffnungen`;
+    }
+
+    function updateStatus(){ const regs = loadRegs(); statusEl.textContent = `${regs.length} angemeldet`; statusEl.className = 'small muted'; renderWinnerBox(); updateKpis(); }
+
+    function csv(v){ const s = String(v==null?'':v); return '"'+s.replace(/"/g,'""')+'"'; }
+
+    raffleForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const consent = document.getElementById('consent').checked;
+      if(!name || !email || !consent){ return; }
+
+      // lokal speichern
+      const regs = loadRegs();
+      if(regs.some(r=>r.email.toLowerCase()===email.toLowerCase())){ statusEl.textContent = 'Diese E-Mail ist bereits registriert.'; statusEl.className = 'small danger'; return; }
+      regs.push({name, email, ts:new Date().toISOString()});
+      saveRegs(regs);
+
+      // optional: an Endpoint senden (z. B. Formspree, eigenes Backend)
+      const endpoint = (endpointInput.value||'').trim();
+      if(endpoint){
+        try{
+          await fetch(endpoint, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name,email,consent:true,source:'the-kitchen-advent',ts:new Date().toISOString()}) });
+        }catch(err){ console.warn('Endpoint nicht erreichbar', err); }
+      }
+
+      raffleForm.reset();
+      statusEl.textContent = 'Danke! Du bist dabei.'; statusEl.className = 'small success'; setTimeout(updateStatus, 600);
+    });
+
+    exportCsvBtn.addEventListener('click', ()=>{ const regs = loadRegs(); const header = 'Name,E-Mail,Datum'; const lines = regs.map(r => `${csv(r.name)},${csv(r.email)},${csv(new Date(r.ts).toLocaleString())}`); const csvStr = [header, ...lines].join('
+'); const blob = new Blob([csvStr], {type:'text/csv;charset=utf-8;'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'adventskalender-teilnehmende.csv'; a.click(); setTimeout(()=>URL.revokeObjectURL(url), 2000); });
+
+    drawBtn.addEventListener('click', ()=>{ const regs = loadRegs(); if(regs.length===0){ alert('Noch keine Anmeldungen.'); return; } const winner = regs[Math.floor(Math.random()*regs.length)]; const winners = loadWinners(); winners.push({ ...winner, drawnAt: new Date().toISOString() }); saveWinners(winners); renderWinnerBox(); statusEl.textContent = `🎉 Gewinner gezogen: ${winner.name} <${winner.email}>`; statusEl.className = 'small success'; });
+
+    function renderWinnerBox(){ const winners = loadWinners(); if(winners.length===0){ winnerBox.innerHTML = ''; return; } const items = winners.map(w => `<li>${escapeHtml(w.name)} &lt;${escapeHtml(w.email)}&gt; – ${new Date(w.drawnAt).toLocaleString()}</li>`).join(''); winnerBox.innerHTML = `<div class=\"panel\" style=\"padding:10px\"><strong>Gezogene Gewinner</strong><ul>${items}</ul></div>`; }
+
+    // Init
+    renderCalendar();
+    updateStatus();// Init
+    renderCalendar();
+    updateStatus();
+  </script>
+</body>
+</html>
