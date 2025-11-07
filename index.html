@@ -3,64 +3,67 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Restaurant The Kitchen – Adventskalender 1.–24. Dezember</title>
-  <meta name="description" content="Digitaler Adventskalender (1.–24.12.) für The Kitchen in Lahr – mit täglichen Überraschungen, Gewinnspiel und digitalen Gutscheinen." />
+  <title>Adventskalender – The Kitchen (Lahr)</title>
+  <meta name="description" content="Digitaler Adventskalender (1.–24.12.) für The Kitchen in Lahr/Schwarzwald – Gewinnspiel, DSGVO, Gutscheine per E-Mail." />
   <style>
     :root{
-      --bg:#0b0f1a;
-      --card:#121826;
-      --ink:#f3f4f6;
-      --muted:#a1a1aa;
-      --accent:#f59e0b;
-      --green:#22c55e;
-      --danger:#ef4444;
-      --stroke:#243047;
+      --bg:#0b1226; --ink:#e5e7eb; --muted:#9ca3af; --card:#0f172a;
+      --stroke:#243047; --accent:#f59e0b; --green:#22c55e; --danger:#ef4444;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;background:linear-gradient(180deg,#0f1628,#0b111f);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Helvetica,Arial,sans-serif}
+    html,body{margin:0;background:linear-gradient(180deg,#0f1628,#0b111f);color:var(--ink);
+      font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Helvetica,Arial,sans-serif}
     a{color:var(--accent)}
     .wrap{max-width:1100px;margin:0 auto;padding:18px}
     header{display:grid;gap:8px;margin:8px 0 16px}
     header .row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
     .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:56px;height:56px;border-radius:14px;background:#0b1226;border:1px solid #1f2937;display:grid;place-items:center;box-shadow:0 6px 28px rgba(0,0,0,.25)}
+    .logo{width:56px;height:56px;border-radius:14px;background:#0b1226;border:1px solid #1f2937;
+      display:grid;place-items:center;box-shadow:0 6px 28px rgba(0,0,0,.25)}
     h1{margin:0;font-size:clamp(22px,2.6vw,34px)}
     .sub{color:var(--muted);font-size:14px}
-    .btn{appearance:none;border:1px solid #334155;background:#0b1226;color:var(--ink);padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:600}
-    .btn:hover{background:#111b31}
-    .btn.ghost{background:transparent}
+    .btn{appearance:none;border:1px solid #334155;background:#0b1226;color:var(--ink);
+      padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:600}
     .btn.green{background:var(--green);border-color:transparent;color:#05250f}
     .btn.accent{background:var(--accent);border-color:transparent;color:#111827}
+    .btn.ghost{background:transparent}
     .panel{background:rgba(255,255,255,.04);border:1px solid #1f2937;border-radius:18px;padding:14px}
     .two{display:grid;gap:16px}
     @media(min-width:900px){.two{grid-template-columns:1.6fr 1fr}}
-    .grid{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin:10px 0 24px}
-    @media(min-width:680px){.grid{grid-template-columns:repeat(4,1fr)}}
-    @media(min-width:900px){.grid{grid-template-columns:repeat(6,1fr)}}
-    .tile{position:relative;background:radial-gradient(120% 120% at 100% 0%, #17223f 0%, #0e142a 55%, #0b1226 100%);border:1px solid #1f2937;border-radius:14px;min-height:110px;display:grid;place-items:center;padding:10px;cursor:pointer;transition:transform .12s ease, box-shadow .12s ease}
+    .grid{display:grid;gap:12px;grid-template-columns:repeat(3,1fr);margin:10px 0 24px}
+    @media(min-width:640px){.grid{grid-template-columns:repeat(4,1fr)}}
+    @media(min-width:960px){.grid{grid-template-columns:repeat(6,1fr)}}
+    .tile{position:relative;background:radial-gradient(120% 120% at 100% 0%, #17223f 0%, #0e142a 55%, #0b1226 100%);
+      border:1px solid #1f2937;border-radius:16px;min-height:120px;display:grid;place-items:center;
+      padding:10px;cursor:pointer;transition:transform .12s ease, box-shadow .12s ease}
     .tile:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.25)}
-    .tile .day{position:absolute;top:8px;left:8px;font-size:12px;color:#cbd5e1;background:#0b1226;border:1px solid #1f2937;border-radius:999px;padding:3px 7px}
+    .tile .day{position:absolute;top:8px;left:8px;font-size:12px;color:#cbd5e1;background:#0b1226;
+      border:1px solid #1f2937;border-radius:999px;padding:3px 7px}
     .tile .gift{font-weight:700;text-align:center;padding:0 6px}
-    .tile.locked{outline:2px dashed #334155}
-    .icon{width:54px;height:54px;opacity:.28}
+    .tile.locked{pointer-events:none;filter:grayscale(1);opacity:.45}
+    .icon{width:54px;height:54px;opacity:.3}
     .legend{font-size:12px;color:var(--muted)}
-    dialog{border:none;border-radius:18px;background:#0b1226;color:var(--ink);width:min(720px,92vw);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+    dialog{border:none;border-radius:18px;background:#0b1226;color:#e5e7eb;width:min(720px,92vw);
+      box-shadow:0 30px 80px rgba(0,0,0,.55)}
     dialog::backdrop{background:rgba(0,0,0,.6)}
-    .modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid #1f2937}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:14px 18px;border-bottom:1px solid #1f2937}
     .modal-body{display:grid;gap:14px;padding:16px 18px}
     .row{display:grid;gap:8px}
     label{font-size:12px;color:#cbd5e1}
-    input[type="text"], input[type="email"], textarea{width:100%;background:#0f172a;border:1px solid var(--stroke);border-radius:12px;padding:10px 12px;color:var(--ink)}
+    input[type="text"], input[type="email"], textarea{width:100%;background:#0f172a;border:1px solid var(--stroke);
+      border-radius:12px;padding:10px 12px;color:var(--ink)}
     textarea{min-height:88px;resize:vertical}
-    .thumb{width:100%;aspect-ratio:16/10;background:#0f172a;border:1px dashed #334155;border-radius:14px;display:grid;place-items:center;overflow:hidden}
+    .thumb{width:100%;aspect-ratio:16/10;background:#0f172a;border:1px dashed #334155;border-radius:14px;
+      display:grid;place-items:center;overflow:hidden}
     .thumb img{width:100%;height:100%;object-fit:cover}
-    .kpi{display:flex;gap:10px;flex-wrap:wrap}
-    .badge{background:#0b1226;border:1px solid #334155;border-radius:999px;padding:8px 12px}
-    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#111827;border:1px solid #334155;border-radius:12px;padding:8px 12px;color:#cbd5e1;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.35);display:none}
+    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#111827;border:1px solid #334155;
+      border-radius:12px;padding:8px 12px;color:#cbd5e1;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.35);display:none}
     .toast.show{display:block}
-    @keyframes tada{0%{transform:scale(1)}10%{transform:scale(.92) rotate(-2deg)}20%{transform:scale(1.02) rotate(2deg)}30%{transform:scale(.98) rotate(-1deg)}40%{transform:scale(1.01) rotate(1deg)}60%{transform:scale(1)}100%{transform:scale(1)}} .tada{animation:tada .6s ease}
-    @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}} .shake{animation:shake .5s ease}
-    .codebox{padding:10px;border:1px dashed #334155;border-radius:12px;background:#0f172a;word-break:break-all}
+    .adminBadge{display:none;align-items:center;gap:8px;background:#fde68a;color:#78350f;border:1px solid #f59e0b;
+      border-radius:999px;padding:6px 10px;font-weight:700}
+    [hidden]{display:none !important}
+    .small{font-size:12px}
   </style>
 </head>
 <body>
@@ -75,14 +78,10 @@
             <div class="sub">Deutsches Restaurant · 20–30 € · Sitzplätze im Freien · Hochstühle</div>
           </div>
         </div>
-        <div class="row" style="gap:8px">
-          <button id="editToggle" class="btn ghost" aria-pressed="false">✏️ Bearbeitungsmodus</button>
-          <button id="exportDays" class="btn">⬇️ Kalender exportieren (JSON)</button>
-          <label class="btn" for="importDays">⬆️ Kalender importieren (JSON)</label>
-          <input id="importDays" type="file" accept="application/json" hidden />
-        </div>
+        <div id="adminBadge" class="adminBadge">⚠️ ADMIN AKTIV</div>
       </div>
-      <div class="legend">Im <strong>Bearbeitungsmodus</strong> kannst du für jedes Türchen Titel, Beschreibung und ein Foto hinzufügen. Gewinnspiel-Anmeldungen und Gutscheine werden zentral gezählt.</div>
+      <div class="legend">Öffne jeden Tag im Dezember dein Türchen. Gewinne & Gutscheine nur am jeweiligen Tag gültig.</div>
+      <div id="adminBarMount"></div>
     </header>
 
     <section class="panel two">
@@ -92,10 +91,6 @@
       </div>
       <div>
         <h2>🎁 Gewinnspiel: Essen für 4 Personen</h2>
-        <div class="kpi">
-          <div class="badge" id="kpiRegs">0 Anmeldungen</div>
-          <div class="badge" id="kpiOpens">0 Türchen-Öffnungen</div>
-        </div>
         <p>Unter allen registrierten Teilnehmer:innen verlosen wir ein <strong>Essen für 4 Personen</strong>. Teilnahme bis einschließlich <strong>24.12.</strong></p>
         <form id="raffleForm" class="modal-body panel" style="padding:12px">
           <div class="row">
@@ -109,22 +104,16 @@
           <div class="row">
             <label class="small"><input id="consent" type="checkbox" required /> Ich bin einverstanden, dass meine Daten zur Durchführung des Gewinnspiels gespeichert und verwendet werden.</label>
           </div>
+          <div class="row">
+            <label class="small"><input id="consentMarketing" type="checkbox" required /> Ich willige ein, dass <strong>nur The Kitchen</strong> mich per E-Mail kontaktieren darf (keine Weitergabe an Dritte). Ich kann diese Einwilligung jederzeit widerrufen.</label>
+          </div>
           <button class="btn green" type="submit">Jetzt teilnehmen</button>
           <span id="status" class="small" style="margin-left:10px"></span>
-
-          <div id="adminControls" style="display:none; margin-top:12px">
-            <div class="row" style="display:flex;gap:10px;flex-wrap:wrap">
-              <button id="exportCsv" class="btn" type="button">Teilnehmende exportieren (CSV)</button>
-              <button id="drawWinner" class="btn" type="button">🎉 Gewinner ziehen</button>
-            </div>
-            <div id="winnerBox" class="small" style="margin-top:8px"></div>
-          </div>
         </form>
       </div>
     </section>
   </div>
 
-  <!-- Modal für Türchen-Inhalt & Gutschein -->
   <dialog id="dayModal">
     <form method="dialog">
       <div class="modal-head">
@@ -137,25 +126,23 @@
       <div class="modal-body">
         <div id="publicView">
           <div class="row"><div id="publicText" class="sub"></div></div>
-          <div class="row">
-            <div class="thumb" id="publicThumb"><span>Kein Bild</span></div>
-          </div>
+          <div class="row"><div class="thumb" id="publicThumb"><span>Kein Bild</span></div></div>
           <div id="voucherBox" class="row" style="display:none">
-            <button type="button" id="voucherBtn" class="btn accent">🎟️ Gutschein per E-Mail erhalten</button>
+            <button type="button" id="voucherBtn" class="btn">🎟️ Gutschein per E-Mail erhalten</button>
             <div id="voucherForm" class="row" style="display:none">
               <label for="voucherEmail">E-Mail für Gutschein</label>
               <input id="voucherEmail" type="email" placeholder="deine@email.de" />
               <button type="button" id="voucherSend" class="btn green">Gutschein senden</button>
               <div id="voucherStatus" class="small"></div>
             </div>
-            <div id="voucherCodeBox" class="codebox" style="display:none"></div>
+            <div id="voucherCodeBox" class="small" style="display:none"></div>
           </div>
         </div>
 
         <div id="editView">
           <div class="row">
             <label for="dayTitle">Titel</label>
-            <input id="dayTitle" type="text" placeholder="z. B. Rigatoni mit Hähnchenfleisch 50% Rabatt" />
+            <input id="dayTitle" type="text" placeholder="z. B. Rigatoni – 50% Rabatt" />
           </div>
           <div class="row">
             <label for="dayDesc">Beschreibung</label>
@@ -163,7 +150,6 @@
           </div>
           <div class="row">
             <label><input id="dayVoucherEnabled" type="checkbox" /> Für dieses Türchen Gutschein anbieten</label>
-            <div class="small muted">Beim Öffnen kann der Gast sich einen personalisierten Gutschein per E-Mail zusenden lassen.</div>
           </div>
           <div class="row">
             <label for="dayImage">Foto (optional)</label>
@@ -178,27 +164,73 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script>
-    // —— Einstellungen —— 
-    const STORAGE_KEY_DAYS='kitchenAdventDays.v2';
+    // ---- Reset-Schalter: ?reset=1 -> lokale Daten löschen
+    (function(){
+      const q=new URLSearchParams(location.search);
+      if(q.get('reset')==='1'){
+        localStorage.clear();
+        alert('Lokale Daten wurden gelöscht. Seite lädt neu.');
+        const url=location.href.replace(/([?&])reset=1(&|$)/,'$1').replace(/[?&]$/,'');
+        location.replace(url);
+      }
+    })();
+
+    // ---- Einstellungen
+    const ENDPOINT = 'https://script.google.com/macros/s/AKfycbw_euC_ebmGdG3SZN9WWYM6u4AcWp7YRF6NZY4hlq8ZpWOgOz4oH7ooUItSVLFOk14njw/exec';
+    const STORAGE_KEY_DAYS='kitchenAdventDays.v4';
     const STORAGE_KEY_OPENED='kitchenOpenedDays.v1';
-    // Falls du eine neue Web-App-URL bekommen hast, trage sie hier ein:
-    const ENDPOINT='https://script.google.com/macros/s/AKfycbzq6N3qIdb0_9rVj5e6vXQCdPIrwBzjhmzh4Kp7AJ6Uns6VpKPc7QbFxtr6aK7fUQBLZQ/exec';
+    const STORAGE_KEY_REGS='kitchenAdventRegistrations.v1';
+
+    // ---- Admin nur per URL-Parameter (harte Sperre + Säuberung)
+    const isAdmin = (new URLSearchParams(location.search).get('admin') === 'kitchen2025');
+    function enforceVisitorMode(){
+      // Sicherheitsnetz: Entferne versehentliche Admin-Elemente
+      ['editToggle','exportDays','importDays','clearLocal'].forEach(id=>{
+        const el=document.getElementById(id);
+        if(el) el.remove();
+      });
+      const mount=document.getElementById('adminBarMount');
+      if(mount) mount.innerHTML='';
+      const badge=document.getElementById('adminBadge');
+      if(badge) badge.style.display='none';
+    }
+
+    if (!isAdmin){ enforceVisitorMode(); }
+    else {
+      const badge = document.getElementById('adminBadge');
+      if (badge) badge.style.display = 'flex';
+      const mount = document.getElementById('adminBarMount');
+      if (mount) {
+        mount.innerHTML = `
+          <div class="row" style="gap:8px">
+            <button id="editToggle" class="btn">✏️ Bearbeitungsmodus</button>
+            <button id="exportDays" class="btn">⬇️ Kalender exportieren (JSON)</button>
+            <label class="btn" for="importDays">⬆️ Kalender importieren (JSON)</label>
+            <input id="importDays" type="file" accept="application/json" hidden />
+            <button id="clearLocal" class="btn ghost">🧹 Lokal zurücksetzen</button>
+          </div>`;
+      }
+    }
 
     function defaultDays(){
       const arr=new Array(24).fill(null).map(()=>({title:'',desc:'',imageDataUrl:null,voucher:false}));
-      // Beispiel fürs 1. Türchen (nur zur Demo – Kachel verrät es NICHT)
-      arr[0]={title:'Rigatoni mit Hähnchenfleisch – 50% Rabatt',desc:'Einmalig 50% auf eine Portion Rigatoni mit Hähnchenfleisch. Gültig am 01.12.',imageDataUrl:null,voucher:true};
+      // Beispiel Tag 1 vorbelegt
+      arr[0]={title:'Rigatoni mit Hähnchenfleisch',desc:'Eine Portion Rigatoni – Geschenk am 01.12.',imageDataUrl:null,voucher:true};
       return arr;
     }
-    function loadDays(){try{const raw=localStorage.getItem(STORAGE_KEY_DAYS);if(!raw)return defaultDays();const p=JSON.parse(raw);if(!Array.isArray(p)||p.length!==24)return defaultDays();return p.map(d=>({title:d.title||'',desc:d.desc||'',imageDataUrl:d.imageDataUrl||null,voucher:!!d.voucher}));}catch(e){return defaultDays();}}
+    function loadDays(){try{const raw=localStorage.getItem(STORAGE_KEY_DAYS);if(!raw)return defaultDays();
+      const p=JSON.parse(raw);if(!Array.isArray(p)||p.length!==24)return defaultDays();
+      return p.map(d=>({title:d.title||'',desc:d.desc||'',imageDataUrl:d.imageDataUrl||null,voucher:!!d.voucher}));}catch(e){return defaultDays();}}
     function saveDays(d){localStorage.setItem(STORAGE_KEY_DAYS,JSON.stringify(d));}
     function loadOpened(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY_OPENED)||'[]');}catch(e){return[];}}
     function saveOpened(list){localStorage.setItem(STORAGE_KEY_OPENED,JSON.stringify(list));}
-    function escapeHtml(str){return String(str).replace(/[&<>\"']/g,s=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[s]));}
-    function placeholderIcon(){return '<svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="currentColor" opacity=".35"/><path d="M9 9a3 3 0 116 0c0 1.657-1.5 2-3 3-1.5-1-3-1.343-3-3z" fill="currentColor" opacity=".35"/><circle cx="12" cy="17" r="1.2" fill="currentColor" opacity=".5"/></svg>';}
+    function loadRegs(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY_REGS)||'[]');}catch(e){return[];}}
+    function saveRegs(list){localStorage.setItem(STORAGE_KEY_REGS,JSON.stringify(list));}
+
+    function escapeHtml(str){return String(str).replace(/[&<>\"']/g,s=>({\"&\":\"&amp;\",\"<\":\"&lt;\",\">\":\"&gt;\",\"\\\"\":\"&quot;\",\"'\":\"&#39;\"}[s]));}
+    function icon(){return '<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"12\" cy=\"12\" r=\"10\" stroke=\"currentColor\" opacity=\".35\"/><path d=\"M9 9a3 3 0 116 0c0 1.657-1.5 2-3 3-1.5-1-3-1.343-3-3z\" fill=\"currentColor\" opacity=\".35\"/><circle cx=\"12\" cy=\"17\" r=\"1.2\" fill=\"currentColor\" opacity=\".5\"/></svg>';}
 
     const calendarEl=document.getElementById('calendar');
-    const editToggle=document.getElementById('editToggle');
     const dayModal=document.getElementById('dayModal');
     const modalTitle=document.getElementById('modalTitle');
     const dayTitle=document.getElementById('dayTitle');
@@ -208,6 +240,8 @@
     const thumb=document.getElementById('thumb');
     const publicText=document.getElementById('publicText');
     const publicThumb=document.getElementById('publicThumb');
+    const raffleForm=document.getElementById('raffleForm');
+    const statusEl=document.getElementById('status');
     const voucherBox=document.getElementById('voucherBox');
     const voucherBtn=document.getElementById('voucherBtn');
     const voucherForm=document.getElementById('voucherForm');
@@ -215,7 +249,6 @@
     const voucherSend=document.getElementById('voucherSend');
     const voucherStatus=document.getElementById('voucherStatus');
     const voucherCodeBox=document.getElementById('voucherCodeBox');
-    const saveDayBtn=document.getElementById('saveDay');
 
     let days=loadDays();
     let opened=loadOpened();
@@ -228,176 +261,187 @@
       const todayDec=(today.getMonth()===11)?today.getDate():null;
       days.forEach((d,idx)=>{
         const day=idx+1;
-        const isLocked=!editMode && (todayDec===null || day!==todayDec);
+        const isLocked=!isAdmin && (todayDec===null || day!==todayDec);
         const tile=document.createElement('button');
         tile.className='tile'+(isLocked?' locked':'');
         tile.setAttribute('role','listitem');
-
-        // Besucher sehen nur „Türchen öffnen“ – im Bearbeitungsmodus siehst du den Titel.
-        const label=(editMode && (d.title||d.imageDataUrl)) ? escapeHtml(d.title) : 'Türchen öffnen';
-
-        tile.innerHTML=`<span class="day">${String(day).padStart(2,'0')}.12.</span>${placeholderIcon()}<div class="gift">${label}</div>`;
-        tile.addEventListener('click',()=>openDay(idx,tile,isLocked));
+        const label=(isAdmin && editMode && (d.title||d.imageDataUrl)) ? escapeHtml(d.title) : 'Türchen öffnen';
+        tile.innerHTML=`<span class=\"day\">${String(day).padStart(2,'0')}.12.</span>${icon()}<div class=\"gift\">${label}</div>`;
+        if(!isLocked){ tile.addEventListener('click',()=>openDay(idx,false)); }
+        else { tile.setAttribute('aria-disabled','true'); tile.title=`Verfügbar am ${String(day).padStart(2,'0')}.12.`; }
         calendarEl.appendChild(tile);
       });
     }
 
-    function renderThumb(dataUrl){thumb.innerHTML=dataUrl?`<img alt="Geschenkfoto" src="${dataUrl}" />`:`<span>Kein Bild – hier klicken oder unten Datei wählen</span>`;}
-    function renderPublicThumb(dataUrl){publicThumb.innerHTML=dataUrl?`<img alt="Geschenkfoto" src="${dataUrl}" />`:`<span>Kein Bild</span>`;}
+    function renderThumb(dataUrl){thumb.innerHTML=dataUrl?`<img alt=\"Geschenkfoto\" src=\"${dataUrl}\" />`:`<span>Kein Bild – hier klicken oder unten Datei wählen</span>`;}
+    function renderPublicThumb(dataUrl){publicThumb.innerHTML=dataUrl?`<img alt=\"Geschenkfoto\" src=\"${dataUrl}\" />`:`<span>Kein Bild</span>`;}
 
-    function openDay(index,tile,isLocked){
+    function openDay(index,isLocked){
       const dayNo=index+1;
-      if(isLocked){showToast(`Türchen ${dayNo} ist am ${String(dayNo).padStart(2,'0')}.12. verfügbar.`);tile.classList.add('shake');setTimeout(()=>tile.classList.remove('shake'),600);return;}
-      if(!editMode && opened.includes(index)){showToast('Dieses Türchen hast du heute schon geöffnet.');tile.classList.add('shake');setTimeout(()=>tile.classList.remove('shake'),500);return;}
+      if(isLocked){ return; }
+      if(!isAdmin && opened.includes(index)){ showToast('Dieses Türchen hast du heute schon geöffnet.'); return; }
 
       currentIndex=index;
       const d=days[index];
       modalTitle.textContent=`Türchen ${dayNo}`;
 
-      // Edit vs Public
-      document.getElementById('editView').style.display=editMode?'block':'none';
-      document.getElementById('publicView').style.display=editMode?'none':'block';
+      // Views
+      const editView=document.getElementById('editView');
+      const publicView=document.getElementById('publicView');
+      if (isAdmin && editMode){ editView.style.display='block'; publicView.style.display='none'; }
+      else { editView.style.display='none'; publicView.style.display='block'; }
 
-      // Public-Ansicht (nach Klick)
       publicText.textContent=(d.title||d.desc) ? `${d.title} – ${d.desc}` : 'Viel Glück!';
       renderPublicThumb(d.imageDataUrl);
-      if(d.voucher && !editMode){
-        voucherBox.style.display='block';
-        voucherForm.style.display='none';
-        voucherCodeBox.style.display='none';
-        voucherStatus.textContent='';
-      } else {
-        voucherBox.style.display='none';
-      }
 
-      // Edit-Ansicht
       dayTitle.value=d.title||'';
       dayDesc.value=d.desc||'';
       dayVoucherEnabled.checked=!!d.voucher;
       renderThumb(d.imageDataUrl);
-      saveDayBtn.style.display=editMode?'inline-block':'none';
 
-      tile.classList.add('tada'); setTimeout(()=>tile.classList.remove('tada'),700);
+      // Gutschein-Box nur zeigen, wenn für dieses Türchen aktiviert
+      voucherBox.style.display = d.voucher ? 'block' : 'none';
+      voucherForm.style.display = 'none';
+      voucherStatus.textContent=''; voucherCodeBox.style.display='none'; voucherCodeBox.textContent='';
+
       dayModal.showModal();
+      if(!isAdmin){opened.push(index);opened=[...new Set(opened)];saveOpened(opened);}
 
-      if(!editMode){opened.push(index);opened=[...new Set(opened)];saveOpened(opened);kpiOpens.textContent=`${opened.length} Türchen-Öffnungen`;}
+      // Konfetti
+      burstConfetti();
     }
 
-    // Toast
+    function burstConfetti(){
+      const canvas=document.createElement('canvas'); const ctx=canvas.getContext('2d');
+      const W=canvas.width=window.innerWidth, H=canvas.height=window.innerHeight;
+      canvas.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:9999'; document.body.appendChild(canvas);
+      const n=140, parts=[];
+      for(let i=0;i<n;i++){ parts.push({x:Math.random()*W,y:-20,r:Math.random()*6+3,vx:(Math.random()-.5)*3,vy:Math.random()*3+2,life:Math.random()*80+40}); }
+      let t=0; (function loop(){ t++; ctx.clearRect(0,0,W,H); parts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.vy+=0.03; p.life--; ctx.globalAlpha=Math.max(0,p.life/120); ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle=`hsl(${(p.x/3+t)%360},90%,60%)`; ctx.fill(); }); if(t<120)requestAnimationFrame(loop); else document.body.removeChild(canvas); })();
+    }
+
     function showToast(msg){
       const t=document.getElementById('toast');
       t.textContent=msg; t.classList.add('show');
-      setTimeout(()=>t.classList.remove('show'),1800);
+      setTimeout(()=>t.classList.remove('show'),1500);
     }
 
-    // Events
-    const kpiOpens=document.getElementById('kpiOpens');
-    const kpiRegs=document.getElementById('kpiRegs');
-
-    editToggle.addEventListener('click',()=>{editMode=!editMode;editToggle.setAttribute('aria-pressed',String(editMode));renderCalendar();});
-    thumb.addEventListener('click',()=>{if(editMode) dayImage.click();});
-    dayImage.addEventListener('change',()=>{const f=dayImage.files&&dayImage.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{renderThumb(e.target.result)};r.readAsDataURL(f);});
-    saveDayBtn.addEventListener('click',e=>{
-      if(!editMode)return; e.preventDefault();
-      const d=days[currentIndex];
-      d.title=dayTitle.value.trim();
-      d.desc=dayDesc.value.trim();
-      d.voucher=dayVoucherEnabled.checked;
-      const imgEl=thumb.querySelector('img'); d.imageDataUrl=imgEl?imgEl.src:null;
-      saveDays(days); renderCalendar(); dayModal.close();
-    });
-
-    document.getElementById('exportDays').addEventListener('click',()=>{
-      const blob=new Blob([JSON.stringify(days,null,2)],{type:'application/json'});
-      const url=URL.createObjectURL(blob); const a=document.createElement('a');
-      a.href=url; a.download='adventskalender-kitchen.json'; a.click();
-      setTimeout(()=>URL.revokeObjectURL(url),2000);
-    });
-    document.getElementById('importDays').addEventListener('change', ev=>{
-      const file=ev.target.files&&ev.target.files[0]; if(!file)return;
-      const r=new FileReader(); r.onload=e=>{try{
-        const p=JSON.parse(e.target.result);
-        if(Array.isArray(p)&&p.length===24){
-          days=p.map(d=>({title:d.title||'',desc:d.desc||'',imageDataUrl:d.imageDataUrl||null,voucher:!!d.voucher}));
-          saveDays(days); renderCalendar();
-        } else alert('Ungültiges Format. Erwartet 24 Einträge.');
-      }catch(err){alert('Konnte Datei nicht lesen.');}}; r.readAsText(file);
-    });
-
-    // Gutschein-Flow
-    voucherBtn.addEventListener('click',()=>{voucherForm.style.display='block';});
-    voucherSend.addEventListener('click', async ()=>{
-      const mail=(voucherEmail.value||'').trim();
-      if(!/.+@.+\..+/.test(mail)){voucherStatus.textContent='Bitte gültige E-Mail eingeben.';voucherStatus.style.color='var(--danger)';return;}
-      voucherStatus.textContent='Sende Gutschein …'; voucherStatus.style.color='';
-      const d=days[currentIndex];
-      const payload={action:'voucher', day:currentIndex+1, title:d.title||'', desc:d.desc||'', email:mail, source:'the-kitchen-advent', ts:new Date().toISOString()};
-      try{
-        const res=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-        const data=await res.json().catch(()=>({ok:false}));
-        if(data && data.ok){
-          voucherStatus.textContent='Gutschein gesendet! Schau in dein Postfach.'; voucherStatus.style.color='var(--green)';
-          if(data.code){voucherCodeBox.style.display='block'; voucherCodeBox.innerHTML='<strong>Dein Code:</strong> '+escapeHtml(data.code);}
-        }else{
-          voucherStatus.textContent='Konnte Gutschein nicht senden.'; voucherStatus.style.color='var(--danger)';
+    // Admin-Funktionen nur verbinden, wenn Adminbar existiert
+    window.addEventListener('DOMContentLoaded',()=>{
+      renderCalendar();
+      if (isAdmin) {
+        const editToggle=document.getElementById('editToggle');
+        const exportDays=document.getElementById('exportDays');
+        const importDays=document.getElementById('importDays');
+        const clearLocal=document.getElementById('clearLocal');
+        if(editToggle){
+          editToggle.addEventListener('click',()=>{ editMode=!editMode; renderCalendar(); });
         }
-      }catch(e){
-        voucherStatus.textContent='Netzwerkfehler – bitte später erneut versuchen.'; voucherStatus.style.color='var(--danger)';
+        if(exportDays){
+          exportDays.addEventListener('click',()=>{
+            const blob=new Blob([JSON.stringify(days,null,2)],{type:'application/json'});
+            const url=URL.createObjectURL(blob); const a=document.createElement('a');
+            a.href=url; a.download='adventskalender-kitchen.json'; a.click();
+            setTimeout(()=>URL.revokeObjectURL(url),2000);
+          });
+        }
+        if(importDays){
+          importDays.addEventListener('change', ev=>{
+            const file=ev.target.files&&ev.target.files[0]; if(!file)return;
+            const r=new FileReader(); r.onload=e=>{try{
+              const p=JSON.parse(e.target.result);
+              if(Array.isArray(p)&&p.length===24){
+                days=p.map(d=>({title:d.title||'',desc:d.desc||'',imageDataUrl:d.imageDataUrl||null,voucher:!!d.voucher}));
+                saveDays(days); renderCalendar();
+              } else alert('Ungültiges Format. Erwartet 24 Einträge.');
+            }catch(err){alert('Konnte Datei nicht lesen.');}}; r.readAsText(file);
+          });
+        }
+        if(clearLocal){
+          clearLocal.addEventListener('click',()=>{
+            if(confirm('Lokale Daten (Türen/Öffnungen/Registrierungen) wirklich löschen?')){
+              localStorage.clear(); location.reload();
+            }
+          });
+        }
+        const thumb=document.getElementById('thumb');
+        const dayImage=document.getElementById('dayImage');
+        thumb.addEventListener('click',()=>{if(editMode) dayImage.click();});
+        dayImage.addEventListener('change',()=>{const f=dayImage.files&&dayImage.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{renderThumb(e.target.result)};r.readAsDataURL(f);});
+        document.getElementById('saveDay').addEventListener('click',e=>{
+          e.preventDefault();
+          const d=days[currentIndex];
+          d.title=dayTitle.value.trim();
+          d.desc=dayDesc.value.trim();
+          d.voucher=dayVoucherEnabled.checked;
+          const imgEl=thumb.querySelector('img'); d.imageDataUrl=imgEl?imgEl.src:null;
+          saveDays(days); renderCalendar(); dayModal.close();
+        });
       }
     });
 
-    // Gewinnspiel (lokales Zählen + POST)
-    const raffleForm=document.getElementById('raffleForm');
-    const statusEl=document.getElementById('status');
-    const adminControls=document.getElementById('adminControls');
-    const exportCsvBtn=document.getElementById('exportCsv');
-    const drawBtn=document.getElementById('drawWinner');
-    const winnerBox=document.getElementById('winnerBox');
-    const isAdmin=new URLSearchParams(location.search).get('admin')==='kitchen2025';
-    if(isAdmin&&adminControls){adminControls.style.display='block';}
-
-    const STORAGE_KEY_REGS='kitchenAdventRegistrations.v1';
-    function loadRegs(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY_REGS)||'[]');}catch(e){return[];}}
-    function saveRegs(list){localStorage.setItem(STORAGE_KEY_REGS,JSON.stringify(list)); kpiRegs.textContent=`${list.length} Anmeldungen`;}
-
-    function csvField(s){const v=String(s||'');return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
-    function renderWinnerBox(){const winners=JSON.parse(localStorage.getItem('kitchenAdventWinners.v1')||'[]');if(winners.length===0){winnerBox.innerHTML='';return;}const items=winners.map(w=>`<li>${escapeHtml(w.name)} – ${new Date(w.drawnAt).toLocaleString()}</li>`).join('');winnerBox.innerHTML=`<div class="panel" style="padding:10px"><strong>Gezogene Gewinner</strong><ul>${items}</ul></div>`;}
-
-    raffleForm.addEventListener('submit',async e=>{
+    // Gewinnspiel: DSGVO + Doppelprüfung (Name ODER E-Mail) – Client
+    raffleForm.addEventListener('submit', async (e)=>{
       e.preventDefault();
       const name=document.getElementById('name').value.trim();
-      const email=document.getElementById('email').value.trim();
+      const email=document.getElementById('email').value.trim().toLowerCase();
       const consent=document.getElementById('consent').checked;
-      if(!name||!email||!consent){return;}
+      const consentMarketing=document.getElementById('consentMarketing').checked;
+      if(!name || !email || !consent || !consentMarketing){
+        statusEl.textContent='Bitte alle Pflichtfelder/Einwilligungen ausfüllen.';
+        statusEl.style.color='var(--danger)';
+        return;
+      }
       const regs=loadRegs();
-      if(regs.some(r=>r.email.toLowerCase()===email.toLowerCase())){statusEl.textContent='Diese E-Mail ist bereits registriert.';statusEl.style.color='var(--danger)';return;}
-      const payload={action:'register',name,email,consent:true,source:'the-kitchen-advent',ts:new Date().toISOString()};
+      const norm=s=>s.trim().toLowerCase();
+      if(regs.some(r=>norm(r.email)===email || norm(r.name)===norm(name))){
+        statusEl.textContent='Bereits registriert (Name oder E-Mail).';
+        statusEl.style.color='var(--danger)';
+        return;
+      }
+      const payload={action:'register', name, email, consent:true, marketingConsent:true, source:'the-kitchen-advent', ts:new Date().toISOString()};
       regs.push(payload); saveRegs(regs);
-      try{await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});}catch(err){console.warn('POST fehlgeschlagen',err);}
+      try{
+        const res=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        const data=await res.json().catch(()=>({ok:true}));
+        if(data && data.ok===false && data.reason==='duplicate'){
+          const filtered=regs.filter(r=>!(norm(r.email)===email || norm(r.name)===norm(name)));
+          saveRegs(filtered);
+          statusEl.textContent='Bereits registriert (Server).';
+          statusEl.style.color='var(--danger)';
+          return;
+        }
+      }catch(err){ console.warn('POST fehlgeschlagen', err); }
       raffleForm.reset();
-      statusEl.textContent='Danke! Deine Teilnahme wurde erfasst.'; statusEl.style.color='var(--green)';
-      if(isAdmin) renderWinnerBox();
+      statusEl.textContent='Danke! Deine Teilnahme wurde erfasst.';
+      statusEl.style.color='var(--green)';
     });
 
-    if(isAdmin&&exportCsvBtn){exportCsvBtn.addEventListener('click',()=>{
-      const regs=loadRegs(); const header='Name,E-Mail,Datum';
-      const lines=regs.map(r=>`${csvField(r.name)},${csvField(r.email)},${csvField(new Date(r.ts).toLocaleString())}`);
-      const csvStr=[header,...lines].join('\n'); const blob=new Blob([csvStr],{type:'text/csv;charset=utf-8;'});
-      const url=URL.createObjectURL(blob); const a=document.createElement('a');
-      a.href=url;a.download='adventskalender-teilnehmende.csv'; a.click(); setTimeout(()=>URL.revokeObjectURL(url),2000);
-    });}
-    if(isAdmin&&drawBtn){drawBtn.addEventListener('click',()=>{
-      const regs=loadRegs(); if(regs.length===0){alert('Noch keine Anmeldungen.');return;}
-      const winner=regs[Math.floor(Math.random()*regs.length)];
-      const winners=JSON.parse(localStorage.getItem('kitchenAdventWinners.v1')||'[]');
-      winners.push({...winner,drawnAt:new Date().toISOString()}); localStorage.setItem('kitchenAdventWinners.v1',JSON.stringify(winners));
-      renderWinnerBox(); 
-      showToast(`🎉 Gewinner gezogen: ${winner.name}`);
-    });}
-
-    // Start
-    kpiRegs.textContent=`${loadRegs().length} Anmeldungen`;
-    renderCalendar();
+    // Gutschein-Aktion (nur wenn am Türchen aktiviert)
+    if (voucherBtn){
+      voucherBtn.addEventListener('click',()=>{voucherForm.style.display='block';});
+    }
+    if (voucherSend){
+      voucherSend.addEventListener('click', async ()=>{
+        const mail=(voucherEmail.value||'').trim();
+        if(!/.+@.+\..+/.test(mail)){voucherStatus.textContent='Bitte gültige E-Mail eingeben.';voucherStatus.style.color='var(--danger)';return;}
+        voucherStatus.textContent='Sende Gutschein …'; voucherStatus.style.color='';
+        const d=days[currentIndex];
+        const payload={action:'voucher', day:currentIndex+1, title:d.title||'', desc:d.desc||'', email:mail, source:'the-kitchen-advent', ts:new Date().toISOString()};
+        try{
+          const res=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+          const data=await res.json().catch(()=>({ok:false}));
+          if(data && data.ok){
+            voucherStatus.textContent='Gutschein gesendet! Schau in dein Postfach.'; voucherStatus.style.color='var(--green)';
+            if(data.code){voucherCodeBox.style.display='block'; voucherCodeBox.textContent='Dein Code: '+data.code;}
+          }else{
+            voucherStatus.textContent='Konnte Gutschein nicht senden.'; voucherStatus.style.color='var(--danger)';
+          }
+        }catch(e){
+          voucherStatus.textContent='Netzwerkfehler – bitte später erneut versuchen.'; voucherStatus.style.color='var(--danger)';
+        }
+      });
+    }
   </script>
 </body>
 </html>
